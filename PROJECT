@@ -1,0 +1,24 @@
+domain: neilmcgibbon.com
+layout:
+- go.kubebuilder.io/v3
+projectName: eks-iam-operator
+repo: github.com/neilmcgibbon/eks-iam-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: neilmcgibbon.com
+  group: eks-iam-operator
+  kind: Role
+  path: github.com/neilmcgibbon/eks-iam-operator/api/v1beta1
+  version: v1beta1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: neilmcgibbon.com
+  group: eks-iam-operator
+  kind: Config
+  path: github.com/neilmcgibbon/eks-iam-operator/api/v1beta1
+  version: v1beta1
+version: "3"

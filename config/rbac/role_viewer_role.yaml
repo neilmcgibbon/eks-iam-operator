@@ -1,0 +1,20 @@
+# permissions for end users to view roles.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: role-viewer-role
+rules:
+- apiGroups:
+  - eks-iam-operator.neilmcgibbon.com
+  resources:
+  - roles
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - eks-iam-operator.neilmcgibbon.com
+  resources:
+  - roles/status
+  verbs:
+  - get
