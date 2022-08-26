@@ -45,9 +45,9 @@ containers:
   # Manager container
   manager:
     image:
-      repository: not-set/eks-iam-operator
+      repository: ghcr.io/neilmcgibbon/eks-iam-operator
       pullPolicy: IfNotPresent
-      tag: 0.0.1
+      tag: latest
     resources: {}
 
 # Controller Manager Coonfiguration
