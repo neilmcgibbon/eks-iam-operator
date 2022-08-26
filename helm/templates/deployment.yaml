@@ -46,9 +46,7 @@ spec:
             drop:
             - ALL
       - args:
-        - --health-probe-bind-address=:8081
-        - --metrics-bind-address=127.0.0.1:8080
-        - --leader-elect
+        - --config=controller_manager_config.yaml
         command:
         - /manager
         image: "{{ .Values.containers.manager.image.repository }}:{{ .Values.containers.manager.image.tag | default .Chart.AppVersion }}"
