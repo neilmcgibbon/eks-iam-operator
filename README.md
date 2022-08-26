@@ -1,94 +1,50 @@
-# eks-iam-operator
-// TODO(user): Add simple overview of use/purpose
+# EKS IAM Operator
 
-## Description
-// TODO(user): An in-depth paragraph about your project and overview of use
+An opinionated IAM role management Kubernetes operator for service accounts running in AWS EKS.
 
-## Getting Started
-You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) to get a local cluster for testing, or run against a remote cluster.
-**Note:** Your controller will automatically use the current context in your kubeconfig file (i.e. whatever cluster `kubectl cluster-info` shows).
+## What is this?
+---
+Service accounts running in EKS clusters can assume IAM roles in AWS. See the [AWS documentataion](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) for more information on this process. This operator watches for CRD resources describing AWS permissions and creates a role (with EKS federated principals using OIDC values as as AssumeRole policy) and appropriate inline policies for AWS resource access. This means that that IAM roles and permissions can be defined as part of the service, rather than separately (e.g. via Terraform).
 
-### Running on the cluster
-1. Install Instances of Custom Resources:
+--- 
+## Exmaple
 
-```sh
-kubectl apply -f config/samples/
+```yaml
+apiVersion: eks-iam-operator.neilmcgibbon.com/v1beta1
+kind: Role
+metadata:
+  name: eks-my-service-account # This is the role name that will be created in AWS
+spec:
+  namespace: default
+  serviceAccounts: 
+  - my-service-account
+  statements: 
+    log:
+    - actions:
+      - "cloudwatch:*"
+      resources: 
+      - "*"
+    dynamodb:
+      - actions: 
+        - dynamodb:GetItem
+        resources:
+        - arn:aws:dynamodb:eu-west-1:111111111111:table/foo
+        - arn:aws:dynamodb:eu-west-1:111111111111:table/bar
+      - actions: 
+        - dynamodb:PutItem
+        resources:
+        - arn:aws:dynamodb:eu-west-1:111111111111:table/foo
 ```
 
-2. Build and push your image to the location specified by `IMG`:
-	
-```sh
-make docker-build docker-push IMG=<some-registry>/eks-iam-operator:tag
-```
-	
-3. Deploy the controller to the cluster with the image specified by `IMG`:
+This will create the following resources in AWS
 
-```sh
-make deploy IMG=<some-registry>/eks-iam-operator:tag
-```
+| Resource Type | Notes |
+|-|-|
+| Role | IAM role name : `eks-my-service-account` |
+| AssumeRole Policy | Allows trust from k8s serviceaccount `system:serviceaccount:default:my-service-account` |
+| Inline Policy | policy name: `log`, Contains one statment, with the `cloudwatch:*` access | 
+| Inline Policy | policy name: `dynamodb`, Contains two statment, with the `GetItem` for tables `foo` & `bar` , and one with `PutItem` for table `foo` only | 
 
-### Uninstall CRDs
-To delete the CRDs from the cluster:
-
-```sh
-make uninstall
-```
-
-### Undeploy controller
-UnDeploy the controller to the cluster:
-
-```sh
-make undeploy
-```
-
-## Contributing
-// TODO(user): Add detailed information on how you would like others to contribute to this project
-
-### How it works
-This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
-
-It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/) 
-which provides a reconcile function responsible for synchronizing resources untile the desired state is reached on the cluster 
-
-### Test It Out
-1. Install the CRDs into the cluster:
-
-```sh
-make install
-```
-
-2. Run your controller (this will run in the foreground, so switch to a new terminal if you want to leave it running):
-
-```sh
-make run
-```
-
-**NOTE:** You can also run this in one step by running: `make install run`
-
-### Modifying the API definitions
-If you are editing the API definitions, generate the manifests such as CRs or CRDs using:
-
-```sh
-make manifests
-```
-
-**NOTE:** Run `make --help` for more information on all potential `make` targets
-
-More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
-
-## License
-
-Copyright 2022.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+## Install
+---
 
