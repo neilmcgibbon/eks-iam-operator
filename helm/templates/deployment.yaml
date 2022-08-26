@@ -72,6 +72,10 @@ spec:
           capabilities:
             drop:
             - ALL
+        volumeMounts:
+        - mountPath: /controller_manager_config.yaml
+          name: manager-config
+          subPath: controller_manager_config.yaml
       securityContext:
         runAsNonRoot: true
       {{- with .Values.nodeSelector }}
@@ -86,3 +90,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+      - configMap:
+          name: {{ include "eks-iam-operator.fullname" . }}-manager-config
+        name: manager-config
