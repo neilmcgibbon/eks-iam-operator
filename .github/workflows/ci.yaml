@@ -62,8 +62,9 @@ jobs:
         uses: actions/checkout@v3
       - name: Pages Checkout
         uses: actions/checkout@v3
-        ref: pages
-        path: pages
+        with:
+          ref: pages
+          path: pages
       - name: Publish
         run: |
           helm package helm --destination chart
