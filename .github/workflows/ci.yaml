@@ -71,6 +71,7 @@ jobs:
           mv -n chart/*.tgz pages/
           helm repo index pages/ --url https://neilmcgibbon.github.io/eks-iam-operator
           git config --local user.name "github-actions[bot]"
+          git config --local user.email "github@neilmcgibbon.com"
           git -C pages commit -m 'Publish Helm Chart'
       - name: Push changes
         uses: ad-m/github-push-action@master
