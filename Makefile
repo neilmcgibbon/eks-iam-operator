@@ -129,11 +129,4 @@ dry-run: manifests
 	mkdir -p dry-run
 	$(KUSTOMIZE) build config/default > dry-run/manifests.yaml
 
-publish-chart:
-	helm package helm --destination chart
-	git checkout pages
-	mv -n chart/*.tgz .
-	helm repo index . --url https://neilmcgibbon.github.io/eks-iam-operator
-	git add .
-	git commit -m 'Publish Helm Chart'
-	git push -u origin pages
+	

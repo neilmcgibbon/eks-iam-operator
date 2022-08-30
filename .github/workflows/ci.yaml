@@ -54,13 +54,28 @@ jobs:
           docker push ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION}
           npx --prefix=$HOME/.local semantic-release
   publish-helm:
-    name:  Punlish Helm
+    name:  Publish Helm
     runs-on: ubuntu-latest
     if: ${{ contains(github.event.head_commit.message, 'helm-publish') }}
     steps:
       - name: Repo Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - name: Pages Checkout
+        uses: actions/checkout@v3
+        ref: pages
+        path: pages
       - name: Publish
         run: |
-          make publish-chart
+          helm package helm --destination chart
+          mv -n chart/*.tgz pages/
+          helm repo index pages/ --url https://neilmcgibbon.github.io/eks-iam-operator
+          git config --local user.name "github-actions[bot]"
+          git -C pages commit -m 'Publish Helm Chart'
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: pages
+          directory: pages
+          
       
