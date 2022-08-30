@@ -7,6 +7,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, 'helm-publish') }}
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v2
@@ -16,6 +17,7 @@ jobs:
     name:  Release
     needs: Test
     runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, 'helm-publish') }}
     env:
       RELEASE_VERSION: ~
     steps:
@@ -51,4 +53,14 @@ jobs:
           docker push ghcr.io/neilmcgibbon/eks-iam-operator:latest
           docker push ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION}
           npx --prefix=$HOME/.local semantic-release
-
+  publish-helm:
+    name:  Punlish Helm
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.head_commit.message, 'helm-publish') }}
+    steps:
+      - name: Repo Checkout
+        uses: actions/checkout@v2
+      - name: Publish
+        run: |
+          make publish-chart
+      
