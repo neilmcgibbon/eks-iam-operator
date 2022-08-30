@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  eks-iam-operator:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-08-30T16:52:24.284857218Z"
+    description: Operator for managing IAM roles for EKS clusters
+    digest: 83a708aaea428c6b8c1305702065cd21ed0b81ddc3c1954563d0267687b2d430
+    name: eks-iam-operator
+    type: application
+    urls:
+    - https://neilmcgibbon.github.io/eks-iam-operator/eks-iam-operator-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-08-30T16:52:24.284107051Z"
