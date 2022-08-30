@@ -128,3 +128,12 @@ dry-run: manifests
 	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
 	mkdir -p dry-run
 	$(KUSTOMIZE) build config/default > dry-run/manifests.yaml
+
+publish-chart:
+	helm package helm --destination chart
+	git checkout pages
+	helm repo index . --url https://neilmcgibbon.github.io/eks-iam-operator
+	git add .
+	git commit -m 'Publish Helm Chart'
+	git push -u origin pages
+	git checkout main
