@@ -45,6 +45,26 @@ This will create the following resources in AWS
 | Inline Policy | policy name: `log`, Contains one statment, with the `cloudwatch:*` access | 
 | Inline Policy | policy name: `dynamodb`, Contains two statment, with the `GetItem` for tables `foo` & `bar` , and one with `PutItem` for table `foo` only | 
 
+## IAM Permissions
+
+This controller needs a subset of AWS permissions to operate correctly. Create your role in AWS with the (minimum) requirements below, and provide the created role ARN to the controller (using the values parameter specified in the Helm chart instructions).
+
+  - iam:GetRole
+  - iam:UpdateAssumeRolePolicy
+  - iam:DeleteRolePolicy
+  - iam:TagRole
+  - iam:CreateRole
+  - iam:DeleteRole
+  - iam:UpdateRole
+  - iam:PutRolePolicy
+  - iam:ListRolePolicies
+  - iam:GetRolePolicy
+
+Optionally - to limit the roles that the controller will manage - you may specifiy a resource prefix in this IAM role, ensuring you specifiy the same prefix in the Helm chart configuration.
+
 ## Install
 ---
+Please see the [Helm](https://github.com/neilmcgibbon/eks-iam-operator/tree/main/helm) README.md file installation.
+
+
 
