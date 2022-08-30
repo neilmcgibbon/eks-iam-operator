@@ -1,6 +1,0 @@
-apiVersion: eks-iam-operator.neilmcgibbon.com/v1beta1
-kind: Config
-metadata:
-  name: config-sample
-spec:
-  # TODO(user): Add fields here

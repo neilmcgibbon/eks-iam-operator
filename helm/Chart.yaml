@@ -1,6 +1,0 @@
-apiVersion: v2
-name: eks-iam-operator
-description: Operator for managing IAM roles for EKS clusters
-type: application
-version: 0.0.1
-appVersion: 0.0.1
