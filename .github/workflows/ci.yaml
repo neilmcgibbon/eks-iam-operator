@@ -14,6 +14,7 @@ jobs:
         run: make test
   release:
     name:  Release
+    needs: Test
     runs-on: ubuntu-latest
     env:
       RELEASE_VERSION: ~
@@ -27,6 +28,8 @@ jobs:
               @semantic-release/exec@5.0.0 \
               conventional-changelog-conventionalcommits
       - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           npx --prefix=$HOME/.local semantic-release --dry-run
           if test -f .RELEASE_VERSION; then
@@ -39,6 +42,8 @@ jobs:
           make docker-build
       - name: Release
         if: env.RELEASE_VERSION != ''
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           docker tag controller:latest ghcr.io/neilmcgibbon/eks-iam-operator:latest
           docker tag controller:latest ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION}
