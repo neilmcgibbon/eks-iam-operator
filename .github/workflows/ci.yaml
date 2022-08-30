@@ -72,6 +72,7 @@ jobs:
           helm repo index pages/ --url https://neilmcgibbon.github.io/eks-iam-operator
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github@neilmcgibbon.com"
+          git -C pages add .
           git -C pages commit -m 'Publish Helm Chart'
       - name: Push changes
         uses: ad-m/github-push-action@master
