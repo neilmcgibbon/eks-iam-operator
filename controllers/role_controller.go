@@ -35,8 +35,6 @@ import (
 	eksiamoperatorv1beta1 "github.com/neilmcgibbon/eks-iam-operator/api/v1beta1"
 )
 
-const RoleUpsertTag = "iamoperator.fiit.tv/v1beta1"
-
 // RoleReconciler reconciles a Role object
 type RoleReconciler struct {
 	client.Client
