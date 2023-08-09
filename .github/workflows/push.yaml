@@ -23,6 +23,7 @@ jobs:
         with:
           ssh-key: "${{ secrets.ACTION_COMMIT_KEY }}"
       - name: Conventional Changelog Action
+        id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
           skip-on-empty: false
