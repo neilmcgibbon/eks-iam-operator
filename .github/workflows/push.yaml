@@ -26,10 +26,7 @@ jobs:
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
-          skip-on-empty: 'false'
-          output-file: 'false'
-          skip-version-file: 'true'
-          skip-ci: 'true'
+          skip-commit: 'true'
       - name: Create Release
         uses: ncipollo/release-action@v1
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
