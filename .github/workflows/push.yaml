@@ -33,5 +33,5 @@ jobs:
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
         run: |
           echo ${{ steps.changelog.outputs.tag }}
-          echo ${{ steps.changelog.outputs. }}
+          echo ${{ steps.changelog.outputs }}
           
