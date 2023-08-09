@@ -26,3 +26,4 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v3
         with:
           skip-on-empty: false
+          skip-ci: false
