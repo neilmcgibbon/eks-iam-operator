@@ -28,10 +28,10 @@ jobs:
         with:
           output-file: "false"
           skip-on-empty: "false"
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.changelog.outputs.tag }}
-          name: ${{ steps.changelog.outputs.tag }}
-          body: ${{ steps.changelog.outputs.clean_changelog }}
+          skip-version-file: "true"
+      - name: Test
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        run: |
+          echo ${{ steps.changelog.outputs.tag }}
+          echo ${{ steps.changelog.outputs. }}
           
