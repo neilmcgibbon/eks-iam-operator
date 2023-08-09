@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v2
-      # - name: Run Tests
-      #   run: make test
+      - name: Run Tests
+        run: make test
   release:
     name:  Release
     needs: Test
@@ -50,7 +50,7 @@ jobs:
               --push \
               --platform linux/amd64,linux/arm64 \
               --tag ghcr.io/neilmcgibbon/eks-iam-operator:latest \
-              --tag ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION} 
+              --tag ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION} .
           docker tag controller:latest ghcr.io/neilmcgibbon/eks-iam-operator:latest
           docker tag controller:latest ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION}
           npm exec -- semantic-release
