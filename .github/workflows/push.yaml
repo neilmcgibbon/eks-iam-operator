@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v3
+        with:
+          ssh-key: "${{ secrets.ACTION_COMMIT_KEY }}"
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v3
         with:
