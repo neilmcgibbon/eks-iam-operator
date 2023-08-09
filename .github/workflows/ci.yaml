@@ -12,7 +12,7 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, 'helm-publish') }}
     steps:
       - name: Repo Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       # - name: Run Tests
       #   run: make test
   tag:
@@ -21,10 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Repo Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v3
         with:
+          skip-on-empty: false
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-commit: "true"
 
