@@ -12,6 +12,12 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
+# Path to gox
+GOX           = $(GOBIN)/gox
+
+# Binary targets
+TARGETS := linux/amd64 linux/arm64
+
 # Setting SHELL to bash allows bash commands to be executed by recipes.
 # Options are set to exit when a recipe line exits non-zero or a piped command fails.
 SHELL = /usr/bin/env bash -o pipefail
@@ -76,6 +82,12 @@ docker-build: ## Build docker image with the manager.
 .PHONY: docker-push
 docker-push: ## Push docker image with the manager.
 	docker push ${IMG}
+
+.PHONY: multibuild
+multibuild:
+	go install github.com/mitchellh/gox@latest
+	echo ${GOX}
+	GOFLAGS="-trimpath" GO111MODULE=on CGO_ENABLED=0 $(GOX) -output="bin/{{.OS}}-{{.Arch}}/mnager" -osarch='$(TARGETS)' 
 
 ##@ Deployment
 
