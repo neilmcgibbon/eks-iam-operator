@@ -26,9 +26,8 @@ jobs:
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
-          output-file: "false"
+          skip-commit: "true"
           skip-on-empty: "false"
-          skip-version-file: "true"
       - name: Test
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
         run: |
