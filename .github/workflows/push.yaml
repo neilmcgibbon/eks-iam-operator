@@ -26,13 +26,14 @@ jobs:
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
-          skip-on-empty: false
-          output-file: "false"
+          skip-on-empty: 'false'
+          output-file: 'false'
+          skip-version-file: 'true'
       - name: Create Release
-        uses: actions/create-release@v1
+        uses: ncipollo/release-action@v1
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
         with:
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
+          tag: ${{ steps.changelog.outputs.tag }}
+          name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
           
