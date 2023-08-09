@@ -38,20 +38,21 @@ jobs:
             release_version="$(cat .RELEASE_VERSION)"
             echo "RELEASE_VERSION=$release_version" >> $GITHUB_ENV
           fi
-      - name: Build
-        if: env.RELEASE_VERSION != ''
-        run: |
-          make docker-build
-      - name: Release
+      - name: Build / Push
         if: env.RELEASE_VERSION != ''
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          docker buildx create --name builder --use --bootstrap
+          docker buildx build \
+              --builder builder \
+              --push \
+              --platform linux/amd64,linux/arm64 \
+              --tag ghcr.io/neilmcgibbon/eks-iam-operator:latest \
+              --tag ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION} 
           docker tag controller:latest ghcr.io/neilmcgibbon/eks-iam-operator:latest
           docker tag controller:latest ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION}
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
-          docker push ghcr.io/neilmcgibbon/eks-iam-operator:latest
-          docker push ghcr.io/neilmcgibbon/eks-iam-operator:${RELEASE_VERSION}
           npx --prefix=$HOME/.local semantic-release
   publish-helm:
     name:  Publish Helm
