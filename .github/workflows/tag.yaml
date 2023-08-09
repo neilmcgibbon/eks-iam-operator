@@ -2,7 +2,7 @@ name: OnTag
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
 jobs:
   release:
     name:  Release
