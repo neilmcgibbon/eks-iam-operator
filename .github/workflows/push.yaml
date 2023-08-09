@@ -26,5 +26,4 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v3
         with:
           skip-on-empty: false
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-commit: "true"
