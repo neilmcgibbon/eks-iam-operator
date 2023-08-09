@@ -27,6 +27,7 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v3
         with:
           output-file: "false"
+          skip-on-empty: "false"
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
