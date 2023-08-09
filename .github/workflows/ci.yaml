@@ -26,8 +26,8 @@ jobs:
       - name: Prepare semantic-release
         run: |
           npm install -g --prefix=$HOME/.local \
-              semantic-release@18.0.0 \
-              @semantic-release/exec@5.0.0 \
+              semantic-release@19.0.5 \
+              @semantic-release/exec@6.0.3 \
               conventional-changelog-conventionalcommits
       - name: Semantic Release
         env:
