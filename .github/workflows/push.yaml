@@ -29,7 +29,6 @@ jobs:
           skip-commit: 'true'
       - name: Create Release
         uses: ncipollo/release-action@v1
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         with:
           tag: ${{ steps.changelog.outputs.tag }}
           name: ${{ steps.changelog.outputs.tag }}
