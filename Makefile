@@ -87,7 +87,7 @@ docker-push: ## Push docker image with the manager.
 multibuild:
 	go install github.com/mitchellh/gox@latest
 	echo ${GOX}
-	GOFLAGS="-trimpath" GO111MODULE=on CGO_ENABLED=0 $(GOX) -output="bin/{{.OS}}-{{.Arch}}/mnager" -osarch='$(TARGETS)' 
+	GOFLAGS="-trimpath" GO111MODULE=on CGO_ENABLED=0 $(GOX) -output="build/{{.OS}}/{{.Arch}}/manager" -osarch='$(TARGETS)' 
 
 ##@ Deployment
 

@@ -27,3 +27,5 @@ testbin/*
 .vscode/
 /test/
 /dry-run/
+
+build/
